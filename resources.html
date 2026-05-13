@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crisis Resources — MindBridge</title>
+  <meta name="description" content="Free helplines, chat services, and crisis resources organized by country. Available 24/7.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0c0c14" id="themeColorMeta">
+</head>
+<body>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="urgent-banner" role="alert">
+    Are you in crisis? <a href="help-now.html">Get immediate help now</a> — you are not alone.
+  </div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">MindBridge</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tools.html">Coping Tools</a></li>
+        <li class="nav-dropdown">
+          <a href="#" onclick="event.preventDefault()">More</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="hope-wall.html">Hope Wall</a></li>
+            <li><a href="timer.html">15-Minute Delay</a></li>
+            <li><a href="safety-plan.html">Safety Plan</a></li>
+            <li><a href="validate.html">Validate My Pain</a></li>
+            <li><a href="one-more-day.html">One More Day</a></li>
+            <li><a href="help-a-friend.html">Help a Friend</a></li>
+            <li><a href="what-to-expect.html">What to Expect</a></li>
+            <li><a href="after-care.html">After the Crisis</a></li>
+            <li><a href="resources.html">Crisis Resources</a></li>
+          </ul>
+        </li>
+        <li class="nav-urgent"><a href="help-now.html">I Need Help Now</a></li>
+      </ul>
+      <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+      <button class="mobile-menu-btn" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1>Crisis Resources Near You</h1>
+      <p>Free, confidential help is available. Find phone, text, and chat services in your region. All services listed are provided at no cost.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="resource-category">
+        <h3>🇺🇸 United States</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>988 Suicide & Crisis Lifeline</h4>
+            <p>Call or text for free, confidential support.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:988">Call 988</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Crisis Text Line</h4>
+            <p>Text-based crisis counseling.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="sms:741741?&body=HOME">Text HOME to 741741</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>988 Lifeline Chat</h4>
+            <p>Confidential online chat with crisis counselors.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="https://988lifeline.org/chat/" target="_blank" rel="noopener">988lifeline.org/chat</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>The Trevor Project (LGBTQ+ youth)</h4>
+            <p>Crisis intervention and suicide prevention for LGBTQ+ young people.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:1-866-488-7386">1-866-488-7386</a> · <a href="sms:678678?&body=START">Text START to 678678</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Veterans Crisis Line</h4>
+            <p>Support for veterans and their loved ones.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:988">Dial 988 then press 1</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇬🇧 United Kingdom</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Samaritans</h4>
+            <p>Someone to listen, any time, day or night.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:116123">116 123</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>SHOUT Crisis Text Line</h4>
+            <p>Text support for anyone in crisis.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="sms:85258?&body=SHOUT">Text SHOUT to 85258</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>NHS 111</h4>
+            <p>Non-emergency medical advice and mental health support.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:111">Call 111</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇨🇦 Canada</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Talk Suicide Canada</h4>
+            <p>Nationwide suicide prevention and support.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:18334564566">1-833-456-4566</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Crisis Text Line Canada</h4>
+            <p>Text-based support for Canadians in crisis.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="sms:686868?&body=HOME">Text HOME to 686868</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Kids Help Phone</h4>
+            <p>Support for young people across Canada.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:18006686868">1-800-668-6868</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇦🇺 Australia & 🇳🇿 New Zealand</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Lifeline Australia</h4>
+            <p>Crisis support and suicide prevention.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:131114">13 11 14</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Beyond Blue (Australia)</h4>
+            <p>Mental health support, information, and referrals.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:1300224636">1300 22 4636</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Lifeline Aotearoa (New Zealand)</h4>
+            <p>Confidential support for New Zealanders.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:0800543354">0800 543 354</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇮🇳 India</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Vandrevala Foundation</h4>
+            <p>24/7 crisis helpline for emotional distress.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:9999666555">9999 666 555</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>iCall (TISS)</h4>
+            <p>Phone and email counseling by mental health professionals.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:02225521111">022-2552 1111</a></span>
+            <span class="availability">Mon-Sat · 10am-8pm</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Snehi</h4>
+            <p>Emotional support and crisis intervention.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:914424100500">+91-44-2410 0500</a></span>
+            <span class="availability">Check hours online</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>�🇭 Philippines</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>NCMH Crisis Hotline</h4>
+            <p>National Center for Mental Health crisis support.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:1553">1553 (toll-free)</a> · <a href="tel:63289898727">+63 2 8989-8727</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>In Touch Community Services</h4>
+            <p>Crisis intervention and emotional support.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:63288937603">+63 2 8893-7603</a></span>
+            <span class="availability">Check hours online</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇯🇵 Japan</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Befrienders Japan (Tell Lifeline)</h4>
+            <p>English-speaking crisis counseling in Japan.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:810358825888">03-5774-0992</a> · <a href="tel:81064539010">+81 6 4539 0010</a></span>
+            <span class="availability">Daily · Check hours</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Japanese Federation of Inochi no Denwa</h4>
+            <p>Japanese-language suicide prevention hotlines.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="https://www.lifelink.or.jp/english/" target="_blank" rel="noopener">lifelink.or.jp</a></span>
+            <span class="availability">Regional lines listed online</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇰🇷 South Korea</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Korea Suicide Prevention Center</h4>
+            <p>National crisis helpline and counseling.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:1393">1393</a> · <a href="tel:82109199111">010-9199-1111</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>LifeLine Korea</h4>
+            <p>Crisis support and suicide prevention counseling.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:15889191">1588-9191</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇩🇪 Germany</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Telefonseelsorge</h4>
+            <p>German-speaking crisis counseling and emotional support.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:08001110111">0800 111 0 111</a> · <a href="tel:08001110222">0800 111 0 222</a></span>
+            <span class="availability">24/7 · Free · Anonymous</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Die Nummer gegen Kummer (Youth)</h4>
+            <p>Support for children and young people.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:116111">116 111</a></span>
+            <span class="availability">Mon-Sat · 2pm-8pm</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇫🇷 France</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>SOS Amitié</h4>
+            <p>Crisis listening and emotional support.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:0961391239">09 63 91 23 39</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Suicide Ecoute</h4>
+            <p>Prevention and support for people in distress.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:0145963535">01 45 39 40 00</a></span>
+            <span class="availability">Check hours online</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇧🇷 Brazil</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>CVV — Centro de Valorização da Vida</h4>
+            <p>National suicide prevention and emotional support.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:188">188</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇲🇽 Mexico</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Línea de la Vida</h4>
+            <p>National suicide prevention lifeline.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:8009112000">800 911 2000</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Telefono de la Esperanza</h4>
+            <p>Emotional support and crisis intervention.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:717003717">717 003 717</a></span>
+            <span class="availability">Check hours online</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇳🇬 Nigeria</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Mentally Aware Nigeria Initiative (MANI)</h4>
+            <p>Mental health support and crisis intervention.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:2349068608660">+234 906 860 8660</a></span>
+            <span class="availability">Check hours online</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Lagos State Emergency Hotline</h4>
+            <p>Free emergency mental health support.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:112">112 (emergency)</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇿🇦 South Africa</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>SADAG (South African Depression and Anxiety Group)</h4>
+            <p>Mental health support and crisis lines.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:0800567567">0800 567 567</a> · <a href="sms:31393?&body=SUB">Text "SUB" to 31393</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>🇮🇪 Ireland</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Samaritans Ireland</h4>
+            <p>Someone to listen, any time.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:116123">116 123</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Pieta House</h4>
+            <p>Free therapy for people in suicidal distress and self-harm.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:1800247247">1800 247 247</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="resource-category">
+        <h3>�� Global & More Countries</h3>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Befrienders Worldwide</h4>
+            <p>International directory of suicide prevention helplines.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="https://www.befrienders.org/" target="_blank" rel="noopener">befrienders.org</a></span>
+            <span class="availability">Global</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>FindaHelpline.com</h4>
+            <p>Search for helplines by country and topic.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="https://findahelpline.com/" target="_blank" rel="noopener">findahelpline.com</a></span>
+            <span class="availability">Global</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>International Association for Suicide Prevention</h4>
+            <p>Resources and crisis centers worldwide.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="https://www.iasp.info/resources/Crisis_Centres/" target="_blank" rel="noopener">iasp.info</a></span>
+            <span class="availability">Global directory</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Samaritans of Singapore (SOS)</h4>
+            <p>Crisis support for people in Singapore.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:18002214444">1800-221-4444</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>LifeLine South Africa</h4>
+            <p>Counseling and crisis intervention.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:0861322322">0861 322 322</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+        <div class="resource-card reveal">
+          <div>
+            <h4>Suicide Prevention Lifeline (Ireland)</h4>
+            <p>Support for anyone in Ireland in crisis.</p>
+          </div>
+          <div class="resource-meta">
+            <span class="phone"><a href="tel:1800247247">1800 247 247</a></span>
+            <span class="availability">24/7 · Free</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card reveal" style="margin-top:48px; background:rgba(245,197,66,0.04); border-color:rgba(245,197,66,0.12);">
+        <h4 style="margin-bottom:10px; color:var(--text-primary);">Don't see your country?</h4>
+        <p style="color:var(--text-secondary);">
+          Visit <a href="https://findahelpline.com" target="_blank" rel="noopener">FindaHelpline.com</a> and select your country from the dropdown.
+          If you are in immediate danger, dial your local emergency number — in most places, <strong>112</strong> works worldwide.
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="calm-space" id="calmSpace">
+    <button class="close-btn" id="closeCalmSpace">Close Calm Space</button>
+    <div class="calm-orb" id="calmOrb">Breathe</div>
+    <p class="calm-text" id="calmText">Breathe in slowly...</p>
+  </div>
+
+  <button class="emergency-exit" id="emergencyExit" title="Quickly leave this site">🚪 Quick Exit</button>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="hope-wall.html">Hope Wall</a>
+      <a href="timer.html">15-Minute Delay</a>
+      <a href="safety-plan.html">Safety Plan</a>
+      <a href="validate.html">Validate My Pain</a>
+      <a href="one-more-day.html">One More Day</a>
+      <a href="help-a-friend.html">Help a Friend</a>
+      <a href="what-to-expect.html">What to Expect</a>
+      <a href="resources.html">Resources</a>
+      <a href="help-now.html">Emergency Help</a>
+    </div>
+    <p>MindBridge is a free, open-source project. Not a substitute for professional care. If you are in immediate danger, call your local emergency number.</p>
+  </footer>
+
+  <!-- Crisis Quick-Actions Bar -->
+  <div class="crisis-bar">
+    <button class="crisis-bar-btn breathe" onclick="if(window.toggleCalmSpace)toggleCalmSpace()">🫁 <span class="label">Breathe</span></button>
+    <a href="timer.html" class="crisis-bar-btn delay">⏱️ <span class="label">15 Minutes</span></a>
+    <a href="tel:988" class="crisis-bar-btn call">📞 <span class="label">Call 988</span></a>
+  </div>
+
+  <!-- Hold On Widget -->
+  <div class="hold-on-widget">
+    <button class="close-widget" aria-label="Close widget">×</button>
+    <div class="streak"></div>
+    <div class="hope-snippet"></div>
+    <button class="hope-btn">Show me another reason</button>
+  </div>
+
+  <!-- Accessibility Controls -->
+  <div class="a11y-bar">
+    <button class="a11y-btn" data-font="small" title="Small font">A-</button>
+    <button class="a11y-btn" data-font="normal" title="Normal font">A</button>
+    <button class="a11y-btn" data-font="large" title="Large font">A+</button>
+    <button class="a11y-btn" data-motion title="Toggle animations">✕</button>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

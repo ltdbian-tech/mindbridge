@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MindBridge — You Are Not Alone</title>
+  <meta name="description" content="A futuristic, free mental health sanctuary. Interactive tools, crisis resources, and hope — built to save lives.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0c0c14" id="themeColorMeta">
+</head>
+<body>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="urgent-banner" role="alert">
+    Are you in crisis? <a href="help-now.html">Get immediate help now</a> — you are not alone.
+  </div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">MindBridge</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="tools.html">Coping Tools</a></li>
+        <li class="nav-dropdown">
+          <a href="#" onclick="event.preventDefault()">More</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="hope-wall.html">Hope Wall</a></li>
+            <li><a href="timer.html">15-Minute Delay</a></li>
+            <li><a href="safety-plan.html">Safety Plan</a></li>
+            <li><a href="validate.html">Validate My Pain</a></li>
+            <li><a href="one-more-day.html">One More Day</a></li>
+            <li><a href="help-a-friend.html">Help a Friend</a></li>
+            <li><a href="what-to-expect.html">What to Expect</a></li>
+            <li><a href="after-care.html">After the Crisis</a></li>
+            <li><a href="resources.html">Crisis Resources</a></li>
+          </ul>
+        </li>
+        <li class="nav-urgent"><a href="help-now.html">I Need Help Now</a></li>
+      </ul>
+      <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+      <button class="mobile-menu-btn" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1>You matter.<br>Your story isn't over.</h1>
+      <p>If you're struggling, this space was built for you — a sanctuary of tools, hope, and human connection. Everything here is free, private, and always available.</p>
+      <div class="hero-actions">
+        <a href="help-now.html" class="btn btn-urgent btn-large">I Need Help Right Now</a>
+        <a href="tools.html" class="btn btn-outline btn-large">Enter the Sanctuary</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Intelligent Triage Flow -->
+  <section class="section" style="padding-top:40px;">
+    <div class="triage-container">
+      <div class="triage-question">How are you feeling right now?</div>
+      <div class="triage-options">
+        <button class="triage-btn" data-target="triage-crisis">
+          <span class="triage-emoji">🌩️</span>
+          <span class="triage-label">In crisis</span>
+          <span class="triage-desc">I'm overwhelmed. I need help immediately.</span>
+        </button>
+        <button class="triage-btn" data-target="triage-anxious">
+          <span class="triage-emoji">🌊</span>
+          <span class="triage-label">Anxious &amp; stressed</span>
+          <span class="triage-desc">My heart is racing. I need to calm down.</span>
+        </button>
+        <button class="triage-btn" data-target="triage-holding">
+          <span class="triage-emoji">🌤️</span>
+          <span class="triage-label">Hurting but holding on</span>
+          <span class="triage-desc">I'm struggling but I'm still here.</span>
+        </button>
+        <button class="triage-btn" data-target="triage-helping">
+          <span class="triage-emoji">🤝</span>
+          <span class="triage-label">Helping someone else</span>
+          <span class="triage-desc">Someone I love is struggling. I need guidance.</span>
+        </button>
+      </div>
+
+      <div class="triage-result" id="triage-crisis">
+        <div class="glass-card">
+          <h3 style="color:var(--accent-rose); margin-bottom:12px;">We're right here with you.</h3>
+          <p>You don't have to go through this alone. These are the fastest ways to get support:</p>
+          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:20px 0;">
+            <a href="tel:988" class="btn btn-urgent">📞 Call 988 Now</a>
+            <a href="timer.html" class="btn btn-outline">⏱️ Start 15-Minute Delay</a>
+            <button class="btn btn-teal" onclick="if(window.toggleCalmSpace)toggleCalmSpace()">🫁 Breathe</button>
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-muted);">The people on these lines have talked to thousands of people in your exact situation. They want to help. They won't judge you. <a href="what-to-expect.html">See exactly what happens when you call →</a></p>
+        </div>
+      </div>
+
+      <div class="triage-result" id="triage-anxious">
+        <div class="glass-card">
+          <h3 style="color:var(--accent-teal); margin-bottom:12px;">Let's slow things down together.</h3>
+          <p>Your body is in survival mode right now. Let's bring it back to safety with these tools:</p>
+          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:20px 0;">
+            <a href="tools.html#breathe" class="btn btn-teal">🫁 Guided Breathing</a>
+            <a href="tools.html#ground" class="btn btn-outline">🌿 5-4-3-2-1 Grounding</a>
+            <a href="timer.html" class="btn btn-primary">⏱️ 15-Minute Timer</a>
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-muted);">These exercises are backed by science. Even 2 minutes of slow breathing can reset your nervous system. <a href="validate.html">Need validation first? →</a></p>
+        </div>
+      </div>
+
+      <div class="triage-result" id="triage-holding">
+        <div class="glass-card">
+          <h3 style="color:var(--accent-warm); margin-bottom:12px;">You're still here. That's everything.</h3>
+          <p>You don't have to solve everything today. These small steps can carry you through:</p>
+          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:20px 0;">
+            <a href="one-more-day.html" class="btn btn-primary">🕯️ Make a Pledge</a>
+            <a href="hope-wall.html" class="btn btn-outline">✨ Read Hope Messages</a>
+            <a href="safety-plan.html" class="btn btn-outline">📝 Build Safety Plan</a>
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-muted);">One more day is enough. One more hour is enough. You're doing better than you think. <a href="validate.html">Your pain is real and valid →</a></p>
+        </div>
+      </div>
+
+      <div class="triage-result" id="triage-helping">
+        <div class="glass-card">
+          <h3 style="color:var(--accent-teal); margin-bottom:12px;">You can save a life today.</h3>
+          <p>You don't need to be a therapist. You just need to show up. Here's exactly what to do:</p>
+          <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin:20px 0;">
+            <a href="help-a-friend.html" class="btn btn-teal">🫂 Exact Scripts</a>
+            <a href="what-to-expect.html" class="btn btn-outline">🔮 What to Expect</a>
+            <a href="resources.html" class="btn btn-outline">📞 Crisis Lines</a>
+          </div>
+          <p style="font-size:0.9rem; color:var(--text-muted);">Asking "Are you thinking about suicide?" does not plant the idea. It shows you care. <a href="help-a-friend.html">Learn the exact words →</a></p>
+        </div>
+      </div>
+
+      <button class="triage-back">← Back to options</button>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="talk-widget reveal">
+        <h3>💬 Want to talk to someone right now?</h3>
+        <p>Free, confidential crisis support is available 24/7. You don't have to be in immediate danger to call. Sometimes we just need to hear a human voice.</p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <a href="help-now.html" class="btn btn-urgent">I Need Help Now</a>
+          <a href="timer.html" class="btn btn-outline">Delay 15 Minutes</a>
+          <button class="btn btn-teal" id="openCalmSpace">Enter Calm Space</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-wide">
+      <div class="section-header reveal">
+        <h2 class="section-title">A Sanctuary Built for You</h2>
+        <p class="section-subtitle">Every feature here exists because someone, somewhere, needed it to survive. These are your tools. Your safety net. Your light in the dark.</p>
+      </div>
+
+      <!-- Category: Immediate Support -->
+      <div class="category-header reveal">
+        <span class="cat-dot urgent"></span>
+        <h3>Immediate Support</h3>
+      </div>
+      <div class="card-grid" style="margin-bottom: 48px;">
+        <a href="validate.html" class="feature-card cat-urgent reveal">
+          <div class="feature-icon">�</div>
+          <h3>Your Pain Is Real</h3>
+          <p>Check what you feel and hear "That makes sense." Validation before solutions. You deserve to be seen first.</p>
+        </a>
+
+        <a href="timer.html" class="feature-card cat-urgent reveal">
+          <div class="feature-icon">⏱️</div>
+          <h3>15-Minute Delay</h3>
+          <p>A proven crisis intervention: delay the decision by 15 minutes. Guided timer with supportive messages.</p>
+        </a>
+
+        <a href="help-now.html" class="feature-card cat-urgent reveal">
+          <div class="feature-icon">📞</div>
+          <h3>Crisis Lines</h3>
+          <p>Free helplines, text lines, and chat services available 24/7. Real humans want to help.</p>
+        </a>
+
+        <a href="tools.html#breathe" class="feature-card cat-urgent reveal">
+          <div class="feature-icon">🫁</div>
+          <h3>Breathe With Light</h3>
+          <p>A cinematic guided breathing exercise with orbital visuals. Slow your heart rate in under two minutes.</p>
+        </a>
+      </div>
+
+      <!-- Category: Tools to Carry You Through -->
+      <div class="category-header reveal">
+        <span class="cat-dot"></span>
+        <h3>Tools to Carry You Through</h3>
+      </div>
+      <div class="card-grid" style="margin-bottom: 48px;">
+        <a href="tools.html" class="feature-card reveal">
+          <div class="feature-icon">🧰</div>
+          <h3>Full Coping Toolkit</h3>
+          <p>Mood check-in, grounding, distraction spinner, affirmations, and self-care checklist all in one place.</p>
+        </a>
+
+        <a href="hope-wall.html" class="feature-card reveal">
+          <div class="feature-icon">✨</div>
+          <h3>Wall of Hope</h3>
+          <p>Read messages from people who've been where you are. Leave one for someone who needs it. You're not alone.</p>
+        </a>
+
+        <a href="one-more-day.html" class="feature-card reveal">
+          <div class="feature-icon">�️</div>
+          <h3>One More Day Pledge</h3>
+          <p>Make a small promise to yourself. We'll track how long you've kept it. One day is enough. One day is everything.</p>
+        </a>
+
+        <a href="safety-plan.html" class="feature-card reveal">
+          <div class="feature-icon">📝</div>
+          <h3>Your Safety Plan</h3>
+          <p>Create a personalized crisis plan with warning signs, coping strategies, and contacts — printable & private.</p>
+        </a>
+
+        <a href="hope-wall.html#future" class="feature-card reveal">
+          <div class="feature-icon">💌</div>
+          <h3>Letter to Future You</h3>
+          <p>Write a message to the version of you who made it through. Read it back when you need proof that hope exists.</p>
+        </a>
+
+        <a href="after-care.html" class="feature-card reveal">
+          <div class="feature-icon">🌱</div>
+          <h3>After the Crisis</h3>
+          <p>The storm has passed. Now what? A guide to therapy, peer support, building your safety net, and moving forward.</p>
+        </a>
+      </div>
+
+      <!-- Category: For Someone You Love -->
+      <div class="category-header reveal">
+        <span class="cat-dot warm"></span>
+        <h3>For Someone You Love</h3>
+      </div>
+      <div class="card-grid">
+        <a href="help-a-friend.html" class="feature-card cat-warm reveal">
+          <div class="feature-icon">🫂</div>
+          <h3>Help a Friend</h3>
+          <p>Exact scripts for talking to a suicidal friend. Warning signs, what to say, what not to say, and how to ask directly.</p>
+        </a>
+
+        <a href="what-to-expect.html" class="feature-card cat-warm reveal">
+          <div class="feature-icon">🔮</div>
+          <h3>What to Expect</h3>
+          <p>Fear of the unknown stops people from calling for help. Here's exactly what happens when you reach out.</p>
+        </a>
+
+        <a href="resources.html" class="feature-card cat-warm reveal">
+          <div class="feature-icon">🌍</div>
+          <h3>Crisis Resources by Country</h3>
+          <p>Comprehensive directory of free helplines, text lines, and chat services organized by region.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-alt">
+    <div class="container">
+      <div class="quote-block reveal">
+        <p>"The night is darkest just before dawn. And I promise you — the dawn is coming."</p>
+        <p style="margin-top:16px; font-size:1rem; opacity:0.85;">Whatever you're facing right now, you don't have to face it alone.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="text-center reveal" style="margin-bottom:56px;">
+        <h2 class="section-title">You Are Not Alone</h2>
+        <p class="section-subtitle" style="margin:0 auto;">These numbers represent real people — just like you — who found their way through.</p>
+      </div>
+
+      <div class="card-grid" style="text-align:center;">
+        <div class="glass-card reveal">
+          <div class="stat-number">100%</div>
+          <div class="stat-label">of your hardest days survived so far</div>
+        </div>
+        <div class="glass-card reveal">
+          <div class="stat-number">24/7</div>
+          <div class="stat-label">crisis support available worldwide</div>
+        </div>
+        <div class="glass-card reveal">
+          <div class="stat-number">0</div>
+          <div class="stat-label">dollars needed to use everything here</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="text-center reveal" style="max-width: 680px; margin: 0 auto;">
+        <h3 style="font-size:1.5rem; margin-bottom:16px; background:linear-gradient(135deg,#fff,var(--accent-teal)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">This website keeps nothing about you.</h3>
+        <p style="color: var(--text-secondary);">
+          No accounts. No tracking. No analytics. No data collection. What you type into the safety plan or hope wall stays only on your device.
+          We built it this way because your privacy and safety matter more than anything. You can use everything here completely anonymously.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-warm">
+    <div class="container">
+      <div class="text-center reveal" style="margin-bottom:48px;">
+        <h2 class="section-title">If You're Not Sure You're in Crisis</h2>
+        <p class="section-subtitle" style="margin:0 auto;">Sometimes it's hard to tell. Here are signs that reaching out is a brave and good idea:</p>
+      </div>
+
+      <div class="card-grid">
+        <div class="glass-card reveal">
+          <h4 style="margin-bottom:10px; color:var(--accent-rose);">Thinking about hurting yourself</h4>
+          <p style="color:var(--text-secondary); font-size:0.95rem;">Even if you don't have a plan, these thoughts deserve attention and support.</p>
+        </div>
+        <div class="glass-card reveal">
+          <h4 style="margin-bottom:10px; color:var(--accent-warm);">Feeling hopeless about the future</h4>
+          <p style="color:var(--text-secondary); font-size:0.95rem;">If nothing seems like it will get better, talking to someone can help you see new possibilities.</p>
+        </div>
+        <div class="glass-card reveal">
+          <h4 style="margin-bottom:10px; color:var(--accent-teal);">Withdrawing from everyone</h4>
+          <p style="color:var(--text-secondary); font-size:0.95rem;">Isolation often makes things worse. Connection is a powerful antidote to pain.</p>
+        </div>
+        <div class="glass-card reveal">
+          <h4 style="margin-bottom:10px; color:var(--accent-cyan);">Using substances to cope</h4>
+          <p style="color:var(--text-secondary); font-size:0.95rem;">If alcohol or drugs feel like your only escape, there are safer paths to relief.</p>
+        </div>
+      </div>
+
+      <div class="text-center" style="margin-top: 48px;">
+        <a href="resources.html" class="btn btn-primary btn-large reveal">See All Crisis Resources</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="calm-space" id="calmSpace">
+    <button class="close-btn" id="closeCalmSpace">Close Calm Space</button>
+    <div class="calm-orb" id="calmOrb">Breathe</div>
+    <p class="calm-text" id="calmText">Breathe in slowly...</p>
+  </div>
+
+  <button class="emergency-exit" id="emergencyExit" title="Quickly leave this site">🚪 Quick Exit</button>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="hope-wall.html">Hope Wall</a>
+      <a href="timer.html">15-Minute Delay</a>
+      <a href="safety-plan.html">Safety Plan</a>
+      <a href="validate.html">Validate My Pain</a>
+      <a href="one-more-day.html">One More Day</a>
+      <a href="help-a-friend.html">Help a Friend</a>
+      <a href="what-to-expect.html">What to Expect</a>
+      <a href="resources.html">Resources</a>
+      <a href="help-now.html">Emergency Help</a>
+    </div>
+    <p>MindBridge is a free, open-source project. Not a substitute for professional care. If you are in immediate danger, call your local emergency number.</p>
+    <p style="margin-top:8px; font-size:0.8rem; opacity:0.6;">Built to help save lives. Hosted for free so everyone can access it. You matter.</p>
+  </footer>
+
+  <!-- Crisis Quick-Actions Bar -->
+  <div class="crisis-bar">
+    <button class="crisis-bar-btn breathe" onclick="if(window.toggleCalmSpace)toggleCalmSpace()">🫁 <span class="label">Breathe</span></button>
+    <a href="timer.html" class="crisis-bar-btn delay">⏱️ <span class="label">15 Minutes</span></a>
+    <a href="tel:988" class="crisis-bar-btn call">📞 <span class="label">Call 988</span></a>
+  </div>
+
+  <!-- Hold On Widget -->
+  <div class="hold-on-widget">
+    <button class="close-widget" aria-label="Close widget">×</button>
+    <div class="streak"></div>
+    <div class="hope-snippet"></div>
+    <button class="hope-btn">Show me another reason</button>
+  </div>
+
+  <!-- Accessibility Controls -->
+  <div class="a11y-bar">
+    <button class="a11y-btn" data-font="small" title="Small font">A-</button>
+    <button class="a11y-btn" data-font="normal" title="Normal font">A</button>
+    <button class="a11y-btn" data-font="large" title="Large font">A+</button>
+    <button class="a11y-btn" data-motion title="Toggle animations">✕</button>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

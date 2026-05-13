@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coping Tools — MindBridge</title>
+  <meta name="description" content="Free interactive coping tools: guided breathing, grounding, mood check-in, distraction spinner, affirmations, and self-care.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0c0c14" id="themeColorMeta">
+</head>
+<body>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="urgent-banner" role="alert">
+    Are you in crisis? <a href="help-now.html">Get immediate help now</a> — you are not alone.
+  </div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">MindBridge</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tools.html" class="active">Coping Tools</a></li>
+        <li class="nav-dropdown">
+          <a href="#" onclick="event.preventDefault()">More</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="hope-wall.html">Hope Wall</a></li>
+            <li><a href="timer.html">15-Minute Delay</a></li>
+            <li><a href="safety-plan.html">Safety Plan</a></li>
+            <li><a href="validate.html">Validate My Pain</a></li>
+            <li><a href="one-more-day.html">One More Day</a></li>
+            <li><a href="help-a-friend.html">Help a Friend</a></li>
+            <li><a href="what-to-expect.html">What to Expect</a></li>
+            <li><a href="after-care.html">After the Crisis</a></li>
+            <li><a href="resources.html">Crisis Resources</a></li>
+          </ul>
+        </li>
+        <li class="nav-urgent"><a href="help-now.html">I Need Help Now</a></li>
+      </ul>
+      <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+      <button class="mobile-menu-btn" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1>Tools to Carry You Through</h1>
+      <p>These exercises are free, private, and designed to bring you calm in the hardest moments. Use them anytime you need.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+
+      <!-- Mood Check-in -->
+      <div class="tool-panel reveal" id="mood">
+        <h3>🌡️ How Are You Feeling Right Now?</h3>
+        <p>Tap the face that matches. We'll guide you from there.</p>
+        <div class="mood-grid">
+          <button class="mood-btn" data-mood="😢">
+            😢
+            <span class="mood-label">Struggling</span>
+          </button>
+          <button class="mood-btn" data-mood="😟">
+            😟
+            <span class="mood-label">Not Great</span>
+          </button>
+          <button class="mood-btn" data-mood="😐">
+            😐
+            <span class="mood-label">Okay</span>
+          </button>
+          <button class="mood-btn" data-mood="🙂">
+            🙂
+            <span class="mood-label">Good</span>
+          </button>
+          <button class="mood-btn" data-mood="😊">
+            😊
+            <span class="mood-label">Really Good</span>
+          </button>
+        </div>
+        <p id="moodResponse" class="mt-6" style="display:none; color:var(--accent-warm); font-size:1.1rem; font-weight:500; min-height:2em;"></p>
+      </div>
+
+      <!-- Breathing Exercise -->
+      <div class="tool-panel reveal" id="breathe">
+        <h3>🫁 Guided Breathing With Light</h3>
+        <p>Follow the orb. Inhale as it expands, exhale as it contracts. Let the light guide you back to calm.</p>
+        <div class="breathing-container">
+          <div class="breathing-orbit"></div>
+          <div class="breathing-circle" id="breathCircle">Inhale</div>
+        </div>
+        <p class="breathing-instruction" id="breathText">Breathe in slowly through your nose...</p>
+        <div style="display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-top:24px;">
+          <button class="btn btn-outline" id="breathBtn">Pause</button>
+          <button class="btn btn-outline" id="breathAudioBtn" style="opacity:0.6;">🔇 Sound</button>
+        </div>
+      </div>
+
+      <!-- 5-4-3-2-1 Grounding -->
+      <div class="tool-panel reveal" id="ground">
+        <h3>🌿 5-4-3-2-1 Grounding Technique</h3>
+        <p>Use your senses to anchor yourself in the present. Click each step as you complete it.</p>
+        <div class="grounding-steps">
+          <div class="grounding-step" data-step="5">
+            <div class="number">5</div>
+            <p>Name <strong>5 things</strong> you can see right now</p>
+            <input type="text" class="grounding-input" placeholder="Type them here (e.g., wall, lamp, phone...)">
+          </div>
+          <div class="grounding-step" data-step="4">
+            <div class="number">4</div>
+            <p>Name <strong>4 things</strong> you can touch or feel</p>
+            <input type="text" class="grounding-input" placeholder="Type them here (e.g., floor, fabric, hair...)">
+          </div>
+          <div class="grounding-step" data-step="3">
+            <div class="number">3</div>
+            <p>Name <strong>3 things</strong> you can hear</p>
+            <input type="text" class="grounding-input" placeholder="Type them here (e.g., fan, traffic, breathing...)">
+          </div>
+          <div class="grounding-step" data-step="2">
+            <div class="number">2</div>
+            <p>Name <strong>2 things</strong> you can smell</p>
+            <input type="text" class="grounding-input" placeholder="Type them here (e.g., coffee, soap, air...)">
+          </div>
+          <div class="grounding-step" data-step="1">
+            <div class="number">1</div>
+            <p>Name <strong>1 thing</strong> you can taste</p>
+            <input type="text" class="grounding-input" placeholder="Type it here (e.g., mint, coffee, nothing...)">
+          </div>
+        </div>
+        <p style="margin-top:28px; color:var(--text-secondary);">Take your time with each step. Notice how your body feels calmer as you focus outward.</p>
+      </div>
+
+      <!-- Distraction Spinner -->
+      <div class="tool-panel reveal" id="spinner">
+        <h3>🎯 Distraction Spinner</h3>
+        <p>Can't decide what to do? Let the wheel choose a small, doable act of care.</p>
+        <div class="spinner-wheel" id="spinnerWheel">
+          <div class="spinner-center">✨</div>
+        </div>
+        <button class="btn btn-teal" id="spinBtn">Spin the Wheel</button>
+        <p class="spinner-result" id="spinnerResult"></p>
+      </div>
+
+      <!-- Quick Distraction Ideas -->
+      <div class="tool-panel reveal">
+        <h3>🎧 Quick Distraction Ideas</h3>
+        <p>When thoughts feel overwhelming, shifting focus can help. Try one of these:</p>
+        <div class="card-grid" style="margin-top:28px; text-align:left;">
+          <div class="glass-card" style="padding:24px;">
+            <h4 style="margin-bottom:8px; color:var(--accent-teal);">🎵 Play music</h4>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Put on a song you loved as a child, or something with a strong beat you can move to.</p>
+          </div>
+          <div class="glass-card" style="padding:24px;">
+            <h4 style="margin-bottom:8px; color:var(--accent-cyan);">🚿 Cold water</h4>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Splash cold water on your face, hold an ice cube, or run cool water over your wrists.</p>
+          </div>
+          <div class="glass-card" style="padding:24px;">
+            <h4 style="margin-bottom:8px; color:var(--accent-warm);">📝 Write it out</h4>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Type or scribble everything you're feeling. Don't edit — just let it out on paper.</p>
+          </div>
+          <div class="glass-card" style="padding:24px;">
+            <h4 style="margin-bottom:8px; color:var(--accent-teal);">🐕 Move your body</h4>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Walk around the block, stretch, or do 20 jumping jacks. Physical movement shifts brain chemistry.</p>
+          </div>
+          <div class="glass-card" style="padding:24px;">
+            <h4 style="margin-bottom:8px; color:var(--accent-cyan);">📞 Call someone</h4>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">You don't have to talk about your feelings. Ask about their day, or watch a show together virtually.</p>
+          </div>
+          <div class="glass-card" style="padding:24px;">
+            <h4 style="margin-bottom:8px; color:var(--accent-warm);">🧩 Puzzle or game</h4>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Do a crossword, play a phone game, or sort something by color. Give your brain a different task.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Self-Care Checklist -->
+      <div class="tool-panel reveal" id="selfcare">
+        <h3>💚 Self-Care Checklist</h3>
+        <p>Small things matter. Check them off as you go — no pressure to do all of them.</p>
+        <ul class="checklist" id="checklist">
+          <li onclick="this.classList.toggle('checked')">Drank water in the last few hours</li>
+          <li onclick="this.classList.toggle('checked')">Eaten something nourishing today</li>
+          <li onclick="this.classList.toggle('checked')">Stepped outside or got fresh air</li>
+          <li onclick="this.classList.toggle('checked')">Slept at least a little in the past 24 hours</li>
+          <li onclick="this.classList.toggle('checked')">Spoken to another human today</li>
+          <li onclick="this.classList.toggle('checked')">Moved my body, even briefly</li>
+          <li onclick="this.classList.toggle('checked')">Taken a shower or changed clothes</li>
+          <li onclick="this.classList.toggle('checked')">Done one thing just for myself</li>
+        </ul>
+        <button class="btn btn-outline mt-6" onclick="document.querySelectorAll('#checklist li').forEach(li => li.classList.remove('checked'))">Reset Checklist</button>
+      </div>
+
+      <!-- Affirmations -->
+      <div class="tool-panel reveal">
+        <h3>✨ Affirmation Cards</h3>
+        <p>Click to reveal a reminder. Come back to these anytime.</p>
+        <div class="card-grid" style="margin-top:28px;">
+          <div class="affirmation-card reveal" onclick="this.querySelector('p').style.display='block'; this.querySelector('.reveal').style.display='none';">
+            <span class="reveal">Tap to reveal →</span>
+            <p style="display:none;">"You have survived 100% of your bad days so far."</p>
+          </div>
+          <div class="affirmation-card reveal" onclick="this.querySelector('p').style.display='block'; this.querySelector('.reveal').style.display='none';">
+            <span class="reveal">Tap to reveal →</span>
+            <p style="display:none;">"This feeling is temporary. It will pass, like every feeling before it."</p>
+          </div>
+          <div class="affirmation-card reveal" onclick="this.querySelector('p').style.display='block'; this.querySelector('.reveal').style.display='none';">
+            <span class="reveal">Tap to reveal →</span>
+            <p style="display:none;">"You don't have to be perfect to be worthy of love and care."</p>
+          </div>
+          <div class="affirmation-card reveal" onclick="this.querySelector('p').style.display='block'; this.querySelector('.reveal').style.display='none';">
+            <span class="reveal">Tap to reveal →</span>
+            <p style="display:none;">"Asking for help is brave. Reaching out is strength, not weakness."</p>
+          </div>
+          <div class="affirmation-card reveal" onclick="this.querySelector('p').style.display='block'; this.querySelector('.reveal').style.display='none';">
+            <span class="reveal">Tap to reveal →</span>
+            <p style="display:none;">"Your presence in this world matters more than you know."</p>
+          </div>
+          <div class="affirmation-card reveal" onclick="this.querySelector('p').style.display='block'; this.querySelector('.reveal').style.display='none';">
+            <span class="reveal">Tap to reveal →</span>
+            <p style="display:none;">"One small step is still progress. You don't have to fix everything today."</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="calm-space" id="calmSpace">
+    <button class="close-btn" id="closeCalmSpace">Close Calm Space</button>
+    <div class="calm-orb" id="calmOrb">Breathe</div>
+    <p class="calm-text" id="calmText">Breathe in slowly...</p>
+  </div>
+
+  <button class="emergency-exit" id="emergencyExit" title="Quickly leave this site">🚪 Quick Exit</button>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="hope-wall.html">Hope Wall</a>
+      <a href="timer.html">15-Minute Delay</a>
+      <a href="safety-plan.html">Safety Plan</a>
+      <a href="validate.html">Validate My Pain</a>
+      <a href="one-more-day.html">One More Day</a>
+      <a href="help-a-friend.html">Help a Friend</a>
+      <a href="what-to-expect.html">What to Expect</a>
+      <a href="resources.html">Resources</a>
+      <a href="help-now.html">Emergency Help</a>
+    </div>
+    <p>MindBridge is a free, open-source project. Not a substitute for professional care. If you are in immediate danger, call your local emergency number.</p>
+  </footer>
+
+  <!-- Crisis Quick-Actions Bar -->
+  <div class="crisis-bar">
+    <button class="crisis-bar-btn breathe" onclick="if(window.toggleCalmSpace)toggleCalmSpace()">🫁 <span class="label">Breathe</span></button>
+    <a href="timer.html" class="crisis-bar-btn delay">⏱️ <span class="label">15 Minutes</span></a>
+    <a href="tel:988" class="crisis-bar-btn call">📞 <span class="label">Call 988</span></a>
+  </div>
+
+  <!-- Hold On Widget -->
+  <div class="hold-on-widget">
+    <button class="close-widget" aria-label="Close widget">×</button>
+    <div class="streak"></div>
+    <div class="hope-snippet"></div>
+    <button class="hope-btn">Show me another reason</button>
+  </div>
+
+  <!-- Accessibility Controls -->
+  <div class="a11y-bar">
+    <button class="a11y-btn" data-font="small" title="Small font">A-</button>
+    <button class="a11y-btn" data-font="normal" title="Normal font">A</button>
+    <button class="a11y-btn" data-font="large" title="Large font">A+</button>
+    <button class="a11y-btn" data-motion title="Toggle animations">✕</button>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>

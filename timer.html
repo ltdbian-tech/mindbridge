@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>15-Minute Delay — MindBridge</title>
+  <meta name="description" content="A proven crisis intervention: delay the decision by 15 minutes. Guided timer with supportive messages and small activities.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0c0c14" id="themeColorMeta">
+</head>
+<body>
+
+  <canvas id="particle-canvas"></canvas>
+
+  <div class="urgent-banner" role="alert">
+    Are you in crisis? <a href="help-now.html">Get immediate help now</a> — you are not alone.
+  </div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">MindBridge</a>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="tools.html">Coping Tools</a></li>
+        <li class="nav-dropdown">
+          <a href="#" onclick="event.preventDefault()">More</a>
+          <ul class="nav-dropdown-menu">
+            <li><a href="hope-wall.html">Hope Wall</a></li>
+            <li><a href="timer.html">15-Minute Delay</a></li>
+            <li><a href="safety-plan.html">Safety Plan</a></li>
+            <li><a href="validate.html">Validate My Pain</a></li>
+            <li><a href="one-more-day.html">One More Day</a></li>
+            <li><a href="help-a-friend.html">Help a Friend</a></li>
+            <li><a href="what-to-expect.html">What to Expect</a></li>
+            <li><a href="after-care.html">After the Crisis</a></li>
+            <li><a href="resources.html">Crisis Resources</a></li>
+          </ul>
+        </li>
+        <li class="nav-urgent"><a href="help-now.html">I Need Help Now</a></li>
+      </ul>
+      <button class="theme-toggle" aria-label="Toggle theme">🌙</button>
+      <button class="mobile-menu-btn" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Menu">☰</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <h1>Delay the decision<br>by 15 minutes.</h1>
+      <p>This is one of the most powerful techniques in crisis intervention. By waiting just 15 minutes, you give your brain time to shift. You give hope a chance to arrive. You are choosing to stay — and that matters.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="container">
+
+      <div class="text-center reveal">
+        <div class="timer-ring">
+          <div class="timer-ring-fill" id="timerRingFill"></div>
+          <div class="timer-display" id="timerDisplay">15:00</div>
+        </div>
+        <p class="timer-message" id="timerMessage">You're doing something incredibly brave right now. Just by staying, you are choosing life.</p>
+        <div style="margin-top:28px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+          <button class="btn btn-primary btn-large" id="startTimerBtn">Start 15 Minutes</button>
+          <button class="btn btn-outline" id="resetTimerBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="text-center reveal" style="margin-bottom:32px;">
+        <h3 style="font-size:1.3rem; margin-bottom:8px;">Small things to do while you wait:</h3>
+        <p style="color:var(--text-secondary);">Click each one as you complete it. They add up.</p>
+      </div>
+
+      <div style="max-width:520px; margin:0 auto;">
+        <div class="timer-activity reveal">
+          <div class="check">✓</div>
+          <span>Take 5 slow breaths</span>
+        </div>
+        <div class="timer-activity reveal">
+          <div class="check">✓</div>
+          <span>Drink a glass of water</span>
+        </div>
+        <div class="timer-activity reveal">
+          <div class="check">✓</div>
+          <span>Step outside for fresh air</span>
+        </div>
+        <div class="timer-activity reveal">
+          <div class="check">✓</div>
+          <span>Text one person — even just "hi"</span>
+        </div>
+        <div class="timer-activity reveal">
+          <div class="check">✓</div>
+          <span>Write one sentence about how you feel</span>
+        </div>
+        <div class="timer-activity reveal">
+          <div class="check">✓</div>
+          <span>Put on one song you love</span>
+        </div>
+        <div class="timer-activity reveal">
+          <div class="check">✓</div>
+          <span>Hold something cold (ice, cold water)</span>
+        </div>
+        <div class="timer-activity reveal">
+          <div class="check">✓</div>
+          <span>Name 3 things you can see right now</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="text-center reveal">
+        <h3 style="font-size:1.4rem; margin-bottom:16px; background:linear-gradient(135deg,#fff,var(--accent-warm)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">When the 15 minutes end...</h3>
+        <p style="color:var(--text-secondary); max-width:560px; margin:0 auto 24px;">
+          You don't have to have solved everything. You just proved to yourself that you can wait. That you can survive the wave.
+          If you still feel unsafe, please reach out to a crisis line. They are trained for this exact moment.
+        </p>
+        <a href="help-now.html" class="btn btn-urgent btn-large">Talk to Someone Now</a>
+        <a href="tools.html" class="btn btn-outline btn-large" style="margin-left:12px;">More Coping Tools</a>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="calm-space" id="calmSpace">
+    <button class="close-btn" id="closeCalmSpace">Close Calm Space</button>
+    <div class="calm-orb" id="calmOrb">Breathe</div>
+    <p class="calm-text" id="calmText">Breathe in slowly...</p>
+  </div>
+
+  <button class="emergency-exit" id="emergencyExit" title="Quickly leave this site">🚪 Quick Exit</button>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Tools</a>
+      <a href="hope-wall.html">Hope Wall</a>
+      <a href="timer.html">15-Minute Delay</a>
+      <a href="safety-plan.html">Safety Plan</a>
+      <a href="validate.html">Validate My Pain</a>
+      <a href="one-more-day.html">One More Day</a>
+      <a href="help-a-friend.html">Help a Friend</a>
+      <a href="what-to-expect.html">What to Expect</a>
+      <a href="resources.html">Resources</a>
+      <a href="help-now.html">Emergency Help</a>
+    </div>
+    <p>MindBridge is a free, open-source project. Not a substitute for professional care. If you are in immediate danger, call your local emergency number.</p>
+  </footer>
+
+  <!-- Crisis Quick-Actions Bar -->
+  <div class="crisis-bar">
+    <button class="crisis-bar-btn breathe" onclick="if(window.toggleCalmSpace)toggleCalmSpace()">🫁 <span class="label">Breathe</span></button>
+    <a href="timer.html" class="crisis-bar-btn delay">⏱️ <span class="label">15 Minutes</span></a>
+    <a href="tel:988" class="crisis-bar-btn call">📞 <span class="label">Call 988</span></a>
+  </div>
+
+  <!-- Accessibility Controls -->
+  <div class="a11y-bar">
+    <button class="a11y-btn" data-font="small" title="Small font">A-</button>
+    <button class="a11y-btn" data-font="normal" title="Normal font">A</button>
+    <button class="a11y-btn" data-font="large" title="Large font">A+</button>
+    <button class="a11y-btn" data-motion title="Toggle animations">✕</button>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
