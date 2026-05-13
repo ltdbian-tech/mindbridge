@@ -128,15 +128,21 @@ function initBreathing() {
   }
 
   function update() {
-    phase = (phase + 1) % 8;
+    phase = (phase + 1) % 16;
     if (phase < 4) {
       text.textContent = 'Breathe in slowly through your nose...';
       circle.textContent = 'Inhale';
       if (audioEnabled && phase === 0) playChime(528, 1.2, 0.08); // gentle inhale chime
-    } else {
+    } else if (phase < 8) {
+      text.textContent = 'Hold...';
+      circle.textContent = 'Hold';
+    } else if (phase < 12) {
       text.textContent = 'Breathe out slowly through your mouth...';
       circle.textContent = 'Exhale';
-      if (audioEnabled && phase === 4) playChime(396, 1.2, 0.06); // softer exhale chime
+      if (audioEnabled && phase === 8) playChime(396, 1.2, 0.06); // softer exhale chime
+    } else {
+      text.textContent = 'Hold...';
+      circle.textContent = 'Hold';
     }
   }
 
@@ -445,39 +451,36 @@ function initCalmSpace() {
   const text = document.getElementById('calmText');
   if (!space) return;
 
-  const phrases = [
-    'Breathe in slowly...',
-    'Hold...',
-    'Breathe out gently...',
-    'You are safe here.',
-    'Let the tension melt away.',
-    'This moment is just for you.',
-    'You are doing enough.',
-    'You are allowed to rest.',
-    'Each breath is a new beginning.',
-    'You are more resilient than you know.'
-  ];
+  let calmPhase = 0;
+  let calmTimer = null;
 
-  function cycleText() {
-    if (!text) return;
-    let i = 0;
-    const interval = setInterval(() => {
-      if (!space.classList.contains('active')) { clearInterval(interval); return; }
-      text.style.opacity = '0';
-      setTimeout(() => {
-        text.textContent = phrases[i % phrases.length];
-        text.style.opacity = '1';
-        i++;
-      }, 400);
-    }, 3500);
+  function cycleBreathing() {
+    if (!space.classList.contains('active')) { clearInterval(calmTimer); return; }
+    calmPhase = (calmPhase + 1) % 16;
+    if (calmPhase < 4) {
+      if (orb) orb.textContent = 'Inhale';
+      if (text) text.textContent = 'Breathe in slowly...';
+    } else if (calmPhase < 8) {
+      if (orb) orb.textContent = 'Hold';
+      if (text) text.textContent = 'Hold...';
+    } else if (calmPhase < 12) {
+      if (orb) orb.textContent = 'Exhale';
+      if (text) text.textContent = 'Breathe out gently...';
+    } else {
+      if (orb) orb.textContent = 'Hold';
+      if (text) text.textContent = 'Hold...';
+    }
   }
 
   if (openBtn) {
     openBtn.addEventListener('click', () => {
       space.classList.add('active');
       document.body.style.overflow = 'hidden';
+      calmPhase = 0;
+      if (orb) orb.textContent = 'Inhale';
       if (text) { text.textContent = 'Breathe in slowly...'; text.style.opacity = '1'; }
-      cycleText();
+      if (calmTimer) clearInterval(calmTimer);
+      calmTimer = setInterval(cycleBreathing, 1000);
     });
   }
 
@@ -485,6 +488,7 @@ function initCalmSpace() {
     closeBtn.addEventListener('click', () => {
       space.classList.remove('active');
       document.body.style.overflow = '';
+      if (calmTimer) clearInterval(calmTimer);
     });
   }
 }

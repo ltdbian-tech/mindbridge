@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mindbridge-v2';
+const CACHE_NAME = 'mindbridge-v3';
 const PRECACHE_ASSETS = [
   './',
   './index.html',
