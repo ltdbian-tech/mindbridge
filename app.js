@@ -604,6 +604,87 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
+/* ===== Dynamic Crisis Number by Country ===== */
+function initCrisisNumber() {
+  // Map: country code -> { label: display text, href: tel link }
+  const crisisNumbers = {
+    US: { label: 'Call 988', href: 'tel:988' },
+    GB: { label: 'Call 116 123', href: 'tel:116123' },
+    CA: { label: 'Call 1-833-456-4566', href: 'tel:18334564566' },
+    AU: { label: 'Call 13 11 14', href: 'tel:131114' },
+    NZ: { label: 'Call 0800 543 354', href: 'tel:0800543354' },
+    IN: { label: 'Call 9999 666 555', href: 'tel:9999666555' },
+    PH: { label: 'Call 1553', href: 'tel:1553' },
+    JP: { label: 'Call 03-5774-0992', href: 'tel:810358825888' },
+    KR: { label: 'Call 1393', href: 'tel:1393' },
+    DE: { label: 'Call 0800 111 0 111', href: 'tel:08001110111' },
+    FR: { label: 'Call 09 63 91 23 39', href: 'tel:0961391239' },
+    BR: { label: 'Call 188', href: 'tel:188' },
+    MX: { label: 'Call 800 911 2000', href: 'tel:8009112000' },
+    NG: { label: 'Call 112', href: 'tel:112' },
+    ZA: { label: 'Call 0800 567 567', href: 'tel:0800567567' },
+    IE: { label: 'Call 116 123', href: 'tel:116123' },
+    SG: { label: 'Call 1800-221-4444', href: 'tel:18002214444' },
+    // Fallback for unknown countries
+    DEFAULT: { label: 'Find Help', href: 'resources.html' }
+  };
+
+  function detectCountry() {
+    // Try navigator.language first (e.g. "en-US" -> "US")
+    const lang = navigator.language || '';
+    const parts = lang.split('-');
+    if (parts.length > 1) {
+      const code = parts[parts.length - 1].toUpperCase();
+      if (crisisNumbers[code]) return code;
+    }
+
+    // Try timezone-based detection
+    try {
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+      const tzMap = {
+        'America/New_York': 'US', 'America/Chicago': 'US', 'America/Denver': 'US',
+        'America/Los_Angeles': 'US', 'America/Phoenix': 'US', 'America/Anchorage': 'US',
+        'America/Honolulu': 'US', 'Pacific/Honolulu': 'US',
+        'Europe/London': 'GB', 'Europe/Dublin': 'IE',
+        'America/Toronto': 'CA', 'America/Vancouver': 'CA', 'America/Edmonton': 'CA',
+        'America/Montreal': 'CA', 'America/Winnipeg': 'CA',
+        'Australia/Sydney': 'AU', 'Australia/Melbourne': 'AU', 'Australia/Brisbane': 'AU',
+        'Australia/Perth': 'AU', 'Australia/Adelaide': 'AU',
+        'Pacific/Auckland': 'NZ', 'Pacific/Fiji': 'NZ',
+        'Asia/Kolkata': 'IN', 'Asia/Calcutta': 'IN',
+        'Asia/Manila': 'PH', 'Asia/Tokyo': 'JP', 'Asia/Seoul': 'KR',
+        'Europe/Berlin': 'DE', 'Europe/Paris': 'FR',
+        'America/Sao_Paulo': 'BR', 'America/Mexico_City': 'MX',
+        'Africa/Lagos': 'NG', 'Africa/Johannesburg': 'ZA',
+        'Asia/Singapore': 'SG'
+      };
+      if (tzMap[tz]) return tzMap[tz];
+    } catch { }
+
+    return null;
+  }
+
+  const country = detectCountry();
+  const crisis = country && crisisNumbers[country] ? crisisNumbers[country] : crisisNumbers.DEFAULT;
+
+  // Update all crisis bar call buttons
+  document.querySelectorAll('.crisis-bar-btn.call').forEach(btn => {
+    btn.href = crisis.href;
+    const label = btn.querySelector('.label');
+    if (label) label.textContent = crisis.label;
+  });
+
+  // Update hero CTA call buttons (index.html)
+  document.querySelectorAll('a[data-crisis-cta]').forEach(btn => {
+    btn.href = crisis.href;
+    // Update text if it contains "988" or "Call"
+    if (btn.textContent.includes('Call') || btn.textContent.includes('988')) {
+      const icon = btn.textContent.match(/^[📞\s]+/) ? btn.textContent.match(/^[📞\s]+/)[0] : '📞 ';
+      btn.textContent = icon + crisis.label;
+    }
+  });
+}
+
 // ===== Init =====
 document.addEventListener('DOMContentLoaded', () => {
   initParticles();
@@ -623,6 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTriageFlow();
   initHoldOnWidget();
   initAccessibilityControls();
+  initCrisisNumber();
 });
 
 /* ===== Theme Toggle ===== */
