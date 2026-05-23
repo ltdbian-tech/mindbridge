@@ -472,8 +472,12 @@ function initCalmSpace() {
     }
   }
 
-  if (openBtn) {
-    openBtn.addEventListener('click', () => {
+  window.toggleCalmSpace = function() {
+    if (space.classList.contains('active')) {
+      space.classList.remove('active');
+      document.body.style.overflow = '';
+      if (calmTimer) { clearInterval(calmTimer); calmTimer = null; }
+    } else {
       space.classList.add('active');
       document.body.style.overflow = 'hidden';
       calmPhase = 0;
@@ -481,14 +485,18 @@ function initCalmSpace() {
       if (text) { text.textContent = 'Breathe in slowly...'; text.style.opacity = '1'; }
       if (calmTimer) clearInterval(calmTimer);
       calmTimer = setInterval(cycleBreathing, 1000);
+    }
+  };
+
+  if (openBtn) {
+    openBtn.addEventListener('click', () => {
+      window.toggleCalmSpace();
     });
   }
 
   if (closeBtn) {
     closeBtn.addEventListener('click', () => {
-      space.classList.remove('active');
-      document.body.style.overflow = '';
-      if (calmTimer) clearInterval(calmTimer);
+      window.toggleCalmSpace();
     });
   }
 }
@@ -609,84 +617,320 @@ function escapeHtml(str) {
 }
 
 /* ===== Dynamic Crisis Number by Country ===== */
-function initCrisisNumber() {
-  // Map: country code -> { label: display text, href: tel link }
-  const crisisNumbers = {
-    US: { label: 'Call 988', href: 'tel:988' },
-    GB: { label: 'Call 116 123', href: 'tel:116123' },
-    CA: { label: 'Call 1-833-456-4566', href: 'tel:18334564566' },
-    AU: { label: 'Call 13 11 14', href: 'tel:131114' },
-    NZ: { label: 'Call 0800 543 354', href: 'tel:0800543354' },
-    IN: { label: 'Call 9999 666 555', href: 'tel:9999666555' },
-    PH: { label: 'Call 1553', href: 'tel:1553' },
-    JP: { label: 'Call 03-5774-0992', href: 'tel:810358825888' },
-    KR: { label: 'Call 1393', href: 'tel:1393' },
-    DE: { label: 'Call 0800 111 0 111', href: 'tel:08001110111' },
-    FR: { label: 'Call 09 63 91 23 39', href: 'tel:0961391239' },
-    BR: { label: 'Call 188', href: 'tel:188' },
-    MX: { label: 'Call 800 911 2000', href: 'tel:8009112000' },
-    NG: { label: 'Call 112', href: 'tel:112' },
-    ZA: { label: 'Call 0800 567 567', href: 'tel:0800567567' },
-    IE: { label: 'Call 116 123', href: 'tel:116123' },
-    SG: { label: 'Call 1800-221-4444', href: 'tel:18002214444' },
-    // Fallback for unknown countries
-    DEFAULT: { label: 'Find Help', href: 'resources.html' }
-  };
+const crisisNumbers = {
+  US: { label: 'Call 988', href: 'tel:988', flag: '🇺🇸', name: 'United States' },
+  CA: { label: 'Call 988', href: 'tel:988', flag: '🇨🇦', name: 'Canada' },
+  GB: { label: 'Call 116 123', href: 'tel:116123', flag: '🇬🇧', name: 'United Kingdom' },
+  AU: { label: 'Call 13 11 14', href: 'tel:131114', flag: '🇦🇺', name: 'Australia' },
+  NZ: { label: 'Call 0800 543 354', href: 'tel:0800543354', flag: '🇳🇿', name: 'New Zealand' },
+  IN: { label: 'Call 99996 66555', href: 'tel:9999666555', flag: '🇮🇳', name: 'India' },
+  PH: { label: 'Call 1553', href: 'tel:1553', flag: '🇵🇭', name: 'Philippines' },
+  JP: { label: 'Call 03-5774-0992', href: 'tel:0357740992', flag: '🇯🇵', name: 'Japan' },
+  KR: { label: 'Call 1393', href: 'tel:1393', flag: '🇰🇷', name: 'South Korea' },
+  DE: { label: 'Call 0800 111 0 111', href: 'tel:08001110111', flag: '🇩🇪', name: 'Germany' },
+  FR: { label: 'Call 09 63 91 23 39', href: 'tel:0963912339', flag: '🇫🇷', name: 'France' },
+  BR: { label: 'Call 188', href: 'tel:188', flag: '🇧🇷', name: 'Brazil' },
+  MX: { label: 'Call 800 911 2000', href: 'tel:8009112000', flag: '🇲🇽', name: 'Mexico' },
+  NG: { label: 'Call 112', href: 'tel:112', flag: '🇳🇬', name: 'Nigeria' },
+  ZA: { label: 'Call 0800 567 567', href: 'tel:0800567567', flag: '🇿🇦', name: 'South Africa' },
+  IE: { label: 'Call 116 123', href: 'tel:116123', flag: '🇮🇪', name: 'Ireland' },
+  SG: { label: 'Call 1800-221-4444', href: 'tel:18002214444', flag: '🇸🇬', name: 'Singapore' }
+};
 
-  function detectCountry() {
-    // Try navigator.language first (e.g. "en-US" -> "US")
-    const lang = navigator.language || '';
+function detectCountry() {
+  // 1. Check local storage first (user-selected region preference)
+  const saved = localStorage.getItem('mindbridge_region');
+  if (saved && crisisNumbers[saved]) return saved;
+
+  // 2. Try timezone-name city-based detection (most precise geographical mapping)
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+    const tzMap = {
+      'America/New_York': 'US', 'America/Chicago': 'US', 'America/Denver': 'US',
+      'America/Los_Angeles': 'US', 'America/Phoenix': 'US', 'America/Anchorage': 'US',
+      'America/Honolulu': 'US', 'Pacific/Honolulu': 'US',
+      'Europe/London': 'GB', 'Europe/Dublin': 'IE',
+      'America/Toronto': 'CA', 'America/Vancouver': 'CA', 'America/Edmonton': 'CA',
+      'America/Montreal': 'CA', 'America/Winnipeg': 'CA',
+      'Australia/Sydney': 'AU', 'Australia/Melbourne': 'AU', 'Australia/Brisbane': 'AU',
+      'Australia/Perth': 'AU', 'Australia/Adelaide': 'AU',
+      'Pacific/Auckland': 'NZ', 'Pacific/Fiji': 'NZ',
+      'Asia/Kolkata': 'IN', 'Asia/Calcutta': 'IN',
+      'Asia/Manila': 'PH', 'Asia/Tokyo': 'JP', 'Asia/Seoul': 'KR',
+      'Europe/Berlin': 'DE', 'Europe/Paris': 'FR',
+      'America/Sao_Paulo': 'BR', 'America/Mexico_City': 'MX',
+      'Africa/Lagos': 'NG', 'Africa/Johannesburg': 'ZA',
+      'Asia/Singapore': 'SG'
+    };
+    if (tzMap[tz]) return tzMap[tz];
+    
+    // Partial prefixes
+    const prefix = tz.split('/')[0];
+    if (prefix === 'Australia') return 'AU';
+    if (prefix === 'Europe') return 'GB';
+  } catch { }
+
+  // 3. Try timezone offset fallback (accurate general geographic mapping)
+  try {
+    const offset = new Date().getTimezoneOffset(); // in minutes
+    if (offset === -330 || offset === -300) return 'IN';   // India is UTC+5.5 / UTC+5
+    if (offset === -480) return 'PH';                     // Philippines / Singapore is UTC+8
+    if (offset === 0 || offset === -60) return 'GB';       // UK/Europe is UTC+0 / UTC+1
+    if (offset === -120) return 'DE';                     // Central Europe CEST (Germany/France/etc) is UTC+2
+    if (offset === -600 || offset === -660) return 'AU';   // Eastern Australia is UTC+10 / UTC+11
+    if (offset === -720 || offset === -780) return 'NZ';   // New Zealand is UTC+12 / UTC+13
+  } catch { }
+
+  // 4. Try browser languages (fallback OS language preference)
+  const languages = navigator.languages || [navigator.language || ''];
+  for (const lang of languages) {
+    if (!lang) continue;
     const parts = lang.split('-');
-    if (parts.length > 1) {
-      const code = parts[parts.length - 1].toUpperCase();
-      if (crisisNumbers[code]) return code;
-    }
-
-    // Try timezone-based detection
-    try {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
-      const tzMap = {
-        'America/New_York': 'US', 'America/Chicago': 'US', 'America/Denver': 'US',
-        'America/Los_Angeles': 'US', 'America/Phoenix': 'US', 'America/Anchorage': 'US',
-        'America/Honolulu': 'US', 'Pacific/Honolulu': 'US',
-        'Europe/London': 'GB', 'Europe/Dublin': 'IE',
-        'America/Toronto': 'CA', 'America/Vancouver': 'CA', 'America/Edmonton': 'CA',
-        'America/Montreal': 'CA', 'America/Winnipeg': 'CA',
-        'Australia/Sydney': 'AU', 'Australia/Melbourne': 'AU', 'Australia/Brisbane': 'AU',
-        'Australia/Perth': 'AU', 'Australia/Adelaide': 'AU',
-        'Pacific/Auckland': 'NZ', 'Pacific/Fiji': 'NZ',
-        'Asia/Kolkata': 'IN', 'Asia/Calcutta': 'IN',
-        'Asia/Manila': 'PH', 'Asia/Tokyo': 'JP', 'Asia/Seoul': 'KR',
-        'Europe/Berlin': 'DE', 'Europe/Paris': 'FR',
-        'America/Sao_Paulo': 'BR', 'America/Mexico_City': 'MX',
-        'Africa/Lagos': 'NG', 'Africa/Johannesburg': 'ZA',
-        'Asia/Singapore': 'SG'
-      };
-      if (tzMap[tz]) return tzMap[tz];
-    } catch { }
-
-    return null;
+    const code = parts[parts.length - 1].toUpperCase();
+    if (crisisNumbers[code]) return code;
   }
 
+  return 'US'; // Default to US (988) rather than null
+}
+
+function initCrisisNumber() {
   const country = detectCountry();
-  const crisis = country && crisisNumbers[country] ? crisisNumbers[country] : crisisNumbers.DEFAULT;
+  const crisis = crisisNumbers[country] || crisisNumbers.US;
 
   // Update all crisis bar call buttons
   document.querySelectorAll('.crisis-bar-btn.call').forEach(btn => {
     btn.href = crisis.href;
     const label = btn.querySelector('.label');
-    if (label) label.textContent = crisis.label;
+    if (label) {
+      label.textContent = crisis.label;
+    }
   });
 
   // Update hero CTA call buttons (index.html)
   document.querySelectorAll('a[data-crisis-cta]').forEach(btn => {
     btn.href = crisis.href;
-    // Update text if it contains "988" or "Call"
-    if (btn.textContent.includes('Call') || btn.textContent.includes('988')) {
+    if (btn.textContent.includes('Call') || btn.textContent.includes('988') || btn.textContent.includes('Help')) {
       const icon = btn.textContent.match(/^[📞\s]+/) ? btn.textContent.match(/^[📞\s]+/)[0] : '📞 ';
-      btn.textContent = icon + crisis.label;
+      btn.textContent = icon + crisis.label + ' Now';
     }
   });
+}
+
+/* ===== Urgent Banner Dismissible Functionality ===== */
+function initUrgentBannerDismiss() {
+  const banner = document.querySelector('.urgent-banner');
+  if (!banner) return;
+
+  const isDismissed = localStorage.getItem('mindbridge_banner_dismissed') === 'true';
+  const nav = document.querySelector('.nav');
+
+  if (isDismissed) {
+    banner.style.display = 'none';
+    if (nav) nav.style.top = '0';
+    return;
+  }
+
+  // Inject close button inside urgent banner
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'urgent-banner-close';
+  closeBtn.innerHTML = '&times;';
+  closeBtn.setAttribute('aria-label', 'Dismiss banner');
+  closeBtn.style.cssText = `
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #ffcdd2;
+    font-size: 1.4rem;
+    cursor: pointer;
+    padding: 0 8px;
+    line-height: 1;
+    transition: color 0.2s;
+  `;
+  closeBtn.addEventListener('mouseenter', () => closeBtn.style.color = '#fff');
+  closeBtn.addEventListener('mouseleave', () => closeBtn.style.color = '#ffcdd2');
+
+  closeBtn.addEventListener('click', () => {
+    banner.style.display = 'none';
+    localStorage.setItem('mindbridge_banner_dismissed', 'true');
+    if (nav) {
+      nav.style.transition = 'top 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+      nav.style.top = '0';
+    }
+  });
+
+  banner.style.position = 'relative';
+  banner.appendChild(closeBtn);
+}
+
+/* ===== Off-Canvas Mobile Drawer Overlay ===== */
+function initMobileDrawerEnhancement() {
+  const navLinks = document.getElementById('navLinks');
+  const menuBtn = document.querySelector('.mobile-menu-btn');
+  if (!navLinks) return;
+
+  // Create backdrop overlay element if not exists
+  let overlay = document.querySelector('.nav-overlay');
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'nav-overlay';
+    document.body.appendChild(overlay);
+  }
+
+  // Inject close button in drawer if not exists
+  let closeBtn = navLinks.querySelector('.drawer-close-btn');
+  if (!closeBtn) {
+    closeBtn = document.createElement('button');
+    closeBtn.className = 'drawer-close-btn';
+    closeBtn.innerHTML = '&times;';
+    closeBtn.setAttribute('aria-label', 'Close menu');
+    navLinks.insertBefore(closeBtn, navLinks.firstChild);
+  }
+
+  function openDrawer() {
+    navLinks.classList.add('open');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    navLinks.classList.remove('open');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Override mobile menu toggle button programmatically
+  if (menuBtn) {
+    menuBtn.removeAttribute('onclick'); // Remove inline click
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openDrawer();
+    });
+  }
+
+  closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+
+  // Close drawer when links are clicked (useful for anchors on same page)
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (!link.parentNode.classList.contains('nav-dropdown')) {
+        closeDrawer();
+      }
+    });
+  });
+}
+
+/* ===== Region Selector Injections ===== */
+function initRegionSelector() {
+  const navInner = document.querySelector('.nav-inner');
+  const themeToggle = document.querySelector('.theme-toggle');
+  const navLinks = document.getElementById('navLinks');
+  if (!navInner || !themeToggle) return;
+
+  const currentCountry = detectCountry();
+  const currentCrisis = crisisNumbers[currentCountry] || crisisNumbers.US;
+
+  // List of countries to show in select dropdown
+  const list = Object.keys(crisisNumbers).map(code => ({
+    code,
+    ...crisisNumbers[code]
+  }));
+
+  // Build the selector markup
+  function createSelectorContainer() {
+    const container = document.createElement('div');
+    container.className = 'region-selector-container';
+
+    const btn = document.createElement('button');
+    btn.className = 'region-select-btn';
+    btn.innerHTML = `<span>${currentCrisis.flag} ${currentCountry}</span>`;
+    btn.setAttribute('aria-label', 'Select your country');
+
+    const dropdown = document.createElement('div');
+    dropdown.className = 'region-dropdown';
+
+    list.forEach(c => {
+      const opt = document.createElement('div');
+      opt.className = `region-option ${c.code === currentCountry ? 'active' : ''}`;
+      opt.innerHTML = `
+        <span>${c.flag} ${c.name}</span>
+        <span class="number">${c.label.replace('Call ', '')}</span>
+      `;
+      opt.addEventListener('click', (e) => {
+        e.stopPropagation();
+        localStorage.setItem('mindbridge_region', c.code);
+        
+        // Update all selector text instances
+        document.querySelectorAll('.region-select-btn span').forEach(el => {
+          el.innerHTML = `${c.flag} ${c.code}`;
+        });
+
+        // Update active highlights
+        document.querySelectorAll('.region-option').forEach(o => {
+          o.classList.remove('active');
+          if (o.textContent.includes(c.name)) o.classList.add('active');
+        });
+
+        // Close all dropdowns
+        document.querySelectorAll('.region-dropdown').forEach(d => d.classList.remove('open'));
+        document.querySelectorAll('.region-select-btn').forEach(b => b.classList.remove('active'));
+
+        // Refresh crisis details across elements
+        initCrisisNumber();
+      });
+      dropdown.appendChild(opt);
+    });
+
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = dropdown.classList.contains('open');
+      
+      // Close other dropdowns
+      document.querySelectorAll('.region-dropdown').forEach(d => d.classList.remove('open'));
+      document.querySelectorAll('.region-select-btn').forEach(b => b.classList.remove('active'));
+
+      if (!isOpen) {
+        dropdown.classList.add('open');
+        btn.classList.add('active');
+      }
+    });
+
+    container.appendChild(btn);
+    container.appendChild(dropdown);
+    return container;
+  }
+
+  // Inject for Header (before themeToggle in navInner)
+  if (!document.querySelector('.nav-inner > .region-selector-container')) {
+    const headerSelector = createSelectorContainer();
+    navInner.insertBefore(headerSelector, themeToggle);
+  }
+
+  // Close dropdown on click outside
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.region-dropdown').forEach(d => d.classList.remove('open'));
+    document.querySelectorAll('.region-select-btn').forEach(b => b.classList.remove('active'));
+  });
+}
+
+/* ===== Header Frosted Glass Scroll Effect ===== */
+function initNavScroll() {
+  const nav = document.querySelector('.nav');
+  if (!nav) return;
+  
+  function checkScroll() {
+    if (window.scrollY > 15) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }
+  
+  window.addEventListener('scroll', checkScroll);
+  checkScroll(); // Run immediately on load
 }
 
 // ===== Init =====
@@ -709,6 +953,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initHoldOnWidget();
   initAccessibilityControls();
   initCrisisNumber();
+  initUrgentBannerDismiss();
+  initMobileDrawerEnhancement();
+  initRegionSelector();
+  initNavScroll();
 });
 
 /* ===== Theme Toggle ===== */
